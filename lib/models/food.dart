@@ -26,6 +26,18 @@ class Food extends Equatable {
   List<Object> get props =>
       [id, picturePath, name, description, ingredients, price, rate];
 
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'picturePath': picturePath,
+        'name': name,
+        'description': description,
+        'ingredients': ingredients,
+        'price': price,
+        'rate': rate,
+        'types': types.join(', ')
+      };
+
+  // _$FoodFromJson(data);
   factory Food.fromJson(Map<String, dynamic> data) => Food(
       id: data['id'],
       picturePath: data['picturePath'],
@@ -33,7 +45,7 @@ class Food extends Equatable {
       description: data['description'],
       ingredients: data['ingredients'],
       price: data['price'],
-      rate: (data['rate'] as num).toDouble(),
+      rate: (data['rate'] as num)?.toDouble(),
       types: data['types'].toString().split(',').map((e) {
         switch (e) {
           case 'recommended':

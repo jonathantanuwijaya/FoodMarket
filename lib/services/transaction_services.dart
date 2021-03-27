@@ -6,10 +6,11 @@ class TransactionServices {
     client ??= http.Client();
 
     String url = baseURL + 'transaction/?limit=1000';
-
+    final box = GetStorage();
+    String accessToken = box.read('token');
     var response = await client.get(Uri.parse(url), headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer ${User.token}"
+      "Authorization": "Bearer $accessToken"
     });
 
     if (response.statusCode != 200) {

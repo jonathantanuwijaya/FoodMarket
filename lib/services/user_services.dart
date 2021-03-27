@@ -12,7 +12,7 @@ class UserServices {
     var response = await client.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body:
-        jsonEncode(<String, String>{'email': email, 'password': password}));
+            jsonEncode(<String, String>{'email': email, 'password': password}));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Please try again');
@@ -21,8 +21,32 @@ class UserServices {
     var data = jsonDecode(response.body);
 
     User.token = data['data']['access_token'];
+    final box = GetStorage();
+    await box.write('token', User.token);
+    await box.write('user', data['data']['user']);
     User value = User.fromJson(data['data']['user']);
 
+    return ApiReturnValue(value: value);
+  }
+
+  static Future<ApiReturnValue<User>> getUserData() async {
+    var client = http.Client();
+    String url = baseURL + 'user';
+    final box = GetStorage();
+    String accessToken = box.read('token');
+    var response = await client.get(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $accessToken"
+      },
+    );
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: 'Cannot access user data');
+    }
+    var data = jsonDecode(response.body);
+    User value = User.fromJson(data['data']);
     return ApiReturnValue(value: value);
   }
 
@@ -60,9 +84,7 @@ class UserServices {
       ApiReturnValue<String> result = await uploadProfilePicture(pictureFile);
       if (result.value != null) {
         value = value.copyWith(
-            picturePath:
-            "http://192.1685.5.13:8000/storage/" +
-                result.value);
+            picturePath: "http://192.1685.5.13:8000/storage/" + result.value);
       }
     }
 
@@ -81,7 +103,7 @@ class UserServices {
     }
 
     var multipartFile =
-    await http.MultipartFile.fromPath('file', pictureFile.path);
+        await http.MultipartFile.fromPath('file', pictureFile.path);
     request.files.add(multipartFile);
 
     var response = await request.send();

@@ -26,3 +26,33 @@ class UserLoadingFailed extends UserState {
   @override
   List<Object> get props => [message];
 }
+
+class UserNotAuthenticated extends UserState {
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
+}
+
+class UserAuthenticated extends UserState {
+  final String token;
+
+  const UserAuthenticated({
+    @required this.token,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [token];
+}
+
+class UserAuthenticationFailure extends UserState {
+  final String message;
+
+  UserAuthenticationFailure({
+    @required this.message,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [message];
+}
