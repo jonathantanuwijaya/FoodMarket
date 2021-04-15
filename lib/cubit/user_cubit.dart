@@ -16,9 +16,10 @@ class UserCubit extends Cubit<UserState> {
   Future<void> getUser() async {
     final box = GetStorage();
     String token = box.read('token');
-    ApiReturnValue<User> result = await UserServices.getUserData();
+
 
     if (token != null) {
+      ApiReturnValue<User> result = await UserServices.getUserData();
       emit(UserLoaded(result.value));
     } else {
       emit(UserNotAuthenticated());
@@ -50,7 +51,7 @@ class UserCubit extends Cubit<UserState> {
         await UserServices.uploadProfilePicture(pictureFile);
     if (result.value != null) {
       emit(UserLoaded((state as UserLoaded).user.copyWith(
-          picturePath: 'http://192.168.5.13:8000/storage/' + result.value)));
+          picturePath: 'http://192.168.5.7:8000/storage/' + result.value)));
     }
   }
 }
