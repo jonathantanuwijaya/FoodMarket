@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     .read<UserCubit>()
                                     .state as UserLoaded)
                                     .user
-                                    .picturePath),
+                                    .profile_photo_url),
                                 fit: BoxFit.cover)),
                       ),
                     ),

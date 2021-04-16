@@ -20,9 +20,10 @@ class UserServices {
 
     var data = jsonDecode(response.body);
 
-    User.token = data['data']['access_token'];
+    var _userToken = User(token: data['data']['access_token']);
+    // User.token = data['data']['access_token'];
     final box = GetStorage();
-    await box.write('token', User.token);
+    await box.write('token', _userToken);
     await box.write('user', data['data']['user']);
     User value = User.fromJson(data['data']['user']);
 
@@ -77,14 +78,14 @@ class UserServices {
 
     var data = jsonDecode(response.body);
 
-    User.token = data['data']['access_token'];
+    // var _userToken = User(token: data['data']['access_token']);
     User value = User.fromJson(data['data']['user']);
 
     if (pictureFile != null) {
       ApiReturnValue<String> result = await uploadProfilePicture(pictureFile);
       if (result.value != null) {
         value = value.copyWith(
-            picturePath: "http://192.1685.5.13:8000/storage/" + result.value);
+            profile_photo_url: baseStorage + result.value);
       }
     }
 
@@ -95,11 +96,12 @@ class UserServices {
       {http.MultipartRequest request}) async {
     String url = baseURL + 'user/photo';
     var uri = Uri.parse(url);
-
+    final box = GetStorage();
+    String accessToken = box.read('token');
     if (request == null) {
       request = http.MultipartRequest("POST", uri)
         ..headers["Content-Type"] = "application/json"
-        ..headers["Authorization"] = "Bearer ${User.token}";
+        ..headers["Authorization"] = "Bearer $accessToken}";
     }
 
     var multipartFile =

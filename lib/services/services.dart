@@ -7,5 +7,7 @@ part 'user_services.dart';
 part 'food_services.dart';
 part 'transaction_services.dart';
 
-String baseURL = "http://192.168.5.7:8000/api/";
-String baseStorage = "http://192.168.5.7:8000/storage/";
+// String baseURL = "http://192.168.5.7:8000/api/";
+// String baseStorage = "http://192.168.5.7:8000/storage/";
+String baseURL = "http://192.168.43.85:8000/api/";
+String baseStorage = "http://192.168.43.85:8000/storage/";

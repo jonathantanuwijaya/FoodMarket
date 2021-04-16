@@ -1,4 +1,6 @@
-part of 'models.dart';
+
+
+import 'package:equatable/equatable.dart';
 
 enum FoodType { new_food, popular_food, recommended }
 

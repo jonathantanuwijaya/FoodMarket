@@ -51,7 +51,7 @@ class UserCubit extends Cubit<UserState> {
         await UserServices.uploadProfilePicture(pictureFile);
     if (result.value != null) {
       emit(UserLoaded((state as UserLoaded).user.copyWith(
-          picturePath: 'http://192.168.5.7:8000/storage/' + result.value)));
+          profile_photo_url: 'http://192.168.5.7:8000/storage/' + result.value)));
     }
   }
 }

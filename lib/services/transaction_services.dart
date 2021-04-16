@@ -32,11 +32,13 @@ class TransactionServices {
     client ??= http.Client();
 
     String url = baseURL + 'checkout';
+    final box = GetStorage();
+    String accessToken = box.read('token');
 
     var response = await client.post(Uri.parse(url),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer ${User.token}"
+          "Authorization": "Bearer $accessToken"
         },
         body: jsonEncode(<String, dynamic>{
           'food_id': transaction.food.id,

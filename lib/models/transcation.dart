@@ -1,4 +1,9 @@
-part of 'models.dart';
+
+import 'package:equatable/equatable.dart';
+import 'user.dart';
+import 'food.dart';
+
+
 
 enum TransactionStatus { delivered, on_delivery, pending, cancelled }
 
